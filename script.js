@@ -53,6 +53,7 @@ block3.onmousedown = (event) => moveBlock(event,block3);
 
 // setting condition
 function bindingAreaToBlock (blockArr,areaArr,textArr) {
+    let count = 0;
     for (let i=0;i<blockArr.length;i++) {
         if (
             ((blockArr[i].getBoundingClientRect().top >= areaArr[i].getBoundingClientRect().top) && (blockArr[i].getBoundingClientRect().left >= areaArr[i].getBoundingClientRect().left))
@@ -67,8 +68,9 @@ function bindingAreaToBlock (blockArr,areaArr,textArr) {
                 blockArr[i].style.position = 'relative';
                 blockArr[i].style.top = (areaArr[i].getBoundingClientRect().height / 2) - (blockArr[i].getBoundingClientRect().height / 2) - 5 + 'px';
                 blockArr[i].style.left = (areaArr[i].getBoundingClientRect().width / 2) - (blockArr[i].getBoundingClientRect().width / 2) - 5 + 'px';
-                console.log('success!');
                 
+                count++;
+
             } else if (
                 ((blockArr[i].getBoundingClientRect().top <= areaArr[i].getBoundingClientRect().top) || (blockArr[i].getBoundingClientRect().left <= areaArr[i].getBoundingClientRect().left))
             && ((blockArr[i].getBoundingClientRect().bottom >= areaArr[i].getBoundingClientRect().bottom) || (blockArr[i].getBoundingClientRect().right >= areaArr[i].getBoundingClientRect().right))
@@ -77,6 +79,11 @@ function bindingAreaToBlock (blockArr,areaArr,textArr) {
                 blockArr[i].classList.remove('innerBlock');
 
             } else console.log('error!');
+            
+    }
+    if (count==3) {
+        document.querySelector('.result').classList.add('congr');
+        document.querySelector('.result').innerHTML = 'Congratulations!!!';
     }
 }
 setInterval(bindingAreaToBlock,2000,blockArr,formArr,textArr);
