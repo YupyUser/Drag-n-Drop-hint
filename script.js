@@ -22,6 +22,7 @@ function moveAt (block, event) {
     block.style.left = event.pageX - block.offsetWidth / 2 + "px";
 }
 
+// move blocks
 function moveBlock (event,elem) {
 
     // adding position absolute and moving to same cords
@@ -51,23 +52,34 @@ block3.onmousedown = (event) => moveBlock(event,block3);
 
 
 
-// setting condition
+
 function bindingAreaToBlock (blockArr,areaArr,textArr) {
+
+    // counting true results
     let count = 0;
+
+    // checking each element on true condition
     for (let i=0;i<blockArr.length;i++) {
+
+        // setting condition
         if (
             ((blockArr[i].getBoundingClientRect().top >= areaArr[i].getBoundingClientRect().top) && (blockArr[i].getBoundingClientRect().left >= areaArr[i].getBoundingClientRect().left))
             && ((blockArr[i].getBoundingClientRect().bottom <= areaArr[i].getBoundingClientRect().bottom) && (blockArr[i].getBoundingClientRect().right <= areaArr[i].getBoundingClientRect().right))
             ) {
+                // setting classes
                 areaArr[i].classList.add('blockIn');
-                areaArr[i].append(blockArr[i]);
                 blockArr[i].classList.add('innerBlock');
                 textArr[i].classList.add('hidden');
 
+                // adding block to frame (form)
+                areaArr[i].append(blockArr[i]);
+                
 
+                // setting position of block in frame (form)
                 blockArr[i].style.position = 'relative';
                 blockArr[i].style.top = (areaArr[i].getBoundingClientRect().height / 2) - (blockArr[i].getBoundingClientRect().height / 2) - 5 + 'px';
                 blockArr[i].style.left = (areaArr[i].getBoundingClientRect().width / 2) - (blockArr[i].getBoundingClientRect().width / 2) - 5 + 'px';
+                
                 
                 count++;
 
