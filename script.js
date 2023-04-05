@@ -46,9 +46,9 @@ function moveBlock (event,elem) {
 
 
 // setting the function to block
-block1.onmousedown = (event) => moveBlock(event,block1);
-block2.onmousedown = (event) => moveBlock(event,block2);
-block3.onmousedown = (event) => moveBlock(event,block3);
+for (let i = 0; i<blockArr.length; i++) {
+    blockArr[i].onmousedown = (event) => moveBlock(event,blockArr[i]);
+}
 
 
 
@@ -75,15 +75,32 @@ function bindingAreaToBlock (blockArr,areaArr,textArr) {
                 areaArr[i].append(blockArr[i]);
                 
 
-                // setting position of block in frame (form)
-                blockArr[i].style.position = 'relative';
-                blockArr[i].style.top = (areaArr[i].getBoundingClientRect().height / 2) - (blockArr[i].getBoundingClientRect().height / 2) - 5 + 'px';
-                blockArr[i].style.left = (areaArr[i].getBoundingClientRect().width / 2) - (blockArr[i].getBoundingClientRect().width / 2) - 5 + 'px';
-                
                 // canceling movement of block
                 blockArr[i].onmousedown = null;
+
+                // setting position of block in frame (form)
+                blockArr[i].style.position = 'absolute';
+                blockArr[i].style.top = areaArr[i].getBoundingClientRect().y + (areaArr[i].getBoundingClientRect().height / 2) - (blockArr[i].getBoundingClientRect().height / 2) + 'px';
+                blockArr[i].style.left = areaArr[i].getBoundingClientRect().x + (areaArr[i].getBoundingClientRect().width / 2) - (blockArr[i].getBoundingClientRect().width / 2) + 'px';
+                
                 
                 count++;
+
+            } else if (
+                ((blockArr[i].getBoundingClientRect().top <= areaArr[i].getBoundingClientRect().top) || (blockArr[i].getBoundingClientRect().left <= areaArr[i].getBoundingClientRect().left))
+            || ((blockArr[i].getBoundingClientRect().bottom >= areaArr[i].getBoundingClientRect().bottom) || (blockArr[i].getBoundingClientRect().right >= areaArr[i].getBoundingClientRect().right))
+            ) {
+
+                // canceling classes
+                areaArr[i].classList.remove('blockIn');
+                blockArr[i].classList.remove('innerBlock');
+                textArr[i].classList.remove('hidden');
+
+                // transfering block to previous tag position
+                document.querySelector('.area2').append(blockArr[i]);
+
+                // returning movement of block
+                blockArr[i].onmousedown = (event) => moveBlock(event,blockArr[i]);
 
             } else console.log("blocks isn't at right place!");
             
